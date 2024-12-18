@@ -1,0 +1,27 @@
+[common]
+verbose = "info"
+tool = "simulator"
+image = "pic18f57q43.img"
+
+
+[serial]
+port = "/dev/tty5"
+baudrate = 9600
+
+[simulator]
+mac = "bytes"
+transport = "serial"
+
+[mcp2221a]
+interface = "i2c"
+address = 5
+clk-speed = 100000
+
+
+[nedbg]
+serial-number = 10
+baudrate = 9600
+
+[network]
+host = "localhost"
+port = 5559

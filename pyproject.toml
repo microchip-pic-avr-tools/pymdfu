@@ -1,0 +1,70 @@
+[build-system]
+# project table (PEP621) in pyproject.toml was added in setuptools 61.0.0
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pymdfu"
+
+authors = [
+    {name = "Microchip Technology", email = "support@microchip.com"}
+]
+description = "Microchip Device Firmware Upgrade Application"
+license = {text = "MIT"}
+keywords = ["Microchip"]
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Embedded Systems",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "License :: OSI Approved :: MIT License"
+]
+
+dependencies = ["appdirs", "pyserial", "packaging", "EasyMCP2221", "mcp2210-python", "pyaardvark", "tomli >= 1.1.0 ; python_version < '3.11'"]
+
+dynamic = ["readme", "version"]
+
+[project.urls]
+# If the package is going to be published on GitHub the URL can be given here
+"Homepage" = "https://www.microchip.com"
+
+[project.optional-dependencies]
+# List of packages required to develop this package
+dev = ["pylint>=2.15"]
+# List of packages required to run the tests in this package
+test = ["mock", "pytest"]
+# List of packages required to generate documentation (using Sphinx) for this package
+doc = [
+    # To avoid missing modules when generating documentation the mock module used by the tests is needed.
+    # The mock module could also be useful if some imports need to be mocked out when generating documentation.
+    "mock",
+    "sphinx"
+]
+
+# If the package has any installable CLIs, list them here
+[project.scripts]
+pymdfu = "pymdfu.pymdfu:main"
+pymdfuclient ="pymdfu.pymdfuclient_cli:main"
+
+[tool.setuptools.dynamic]
+readme = {file = ["pypi.md", "CHANGELOG.md"], content-type = "text/markdown"}
+# Get version from package source (__version__ variable in __init__.py)
+version = {attr = "pymdfu.__version__"}
+
+# Any special rules for source files to be included can be configured here
+[tool.setuptools.packages.find]
+# Leave out tests and documentation related files from wheel and source distribution
+exclude = ["pymdfu.tests*", "doc*", "build*"]
+
+# Any rules for non-python files to be included can be configured here
+[tool.setuptools.package-data]
+pymdfu = ["logging.toml"]
